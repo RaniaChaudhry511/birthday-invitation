@@ -1,0 +1,392 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Birthday Invitation</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Great+Vibes&family=Cormorant+Garamond:ital,wght@0,400;0,600;1,400&family=Montserrat:wght@300;400;600&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --peach: #ffe3d3;         /* invitation page ka soft peach */
+    --pink-deep: #e8a7b9;
+    --rose: #c9758e;
+    --white: #ffffff;
+    --text: #6b4a57;
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    font-family: "Montserrat", sans-serif;
+    color: var(--text);
+    background: var(--peach);
+    min-height: 100vh;
+    overflow-x: hidden;
+  }
+
+  .page { display: none; }
+  .page.active { display: block; animation: fadeIn .8s ease; }
+  @keyframes fadeIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
+  }
+
+  /* ================= PAGE 1: COVER (sirf image) ================= */
+  #coverPage.active {
+    position: relative;
+    height: 100vh;
+    height: 100dvh;
+    min-height: 480px;
+    overflow: hidden;
+    background: var(--peach);
+  }
+
+  .cover-bg {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+  }
+
+  .cover-overlay {
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(to top, rgba(90, 40, 60, .75) 0%, rgba(90, 40, 60, .25) 45%, rgba(0, 0, 0, 0) 70%);
+  }
+
+  .cover-fallback {
+    position: absolute;
+    inset: 0;
+    display: none;
+    align-items: center;
+    justify-content: center;
+    font-family: "Great Vibes", cursive;
+    font-size: 3rem;
+    color: var(--rose);
+  }
+
+  .cover-content {
+    position: absolute;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    text-align: center;
+    color: var(--white);
+    padding: 0 24px clamp(40px, 10vh, 90px);
+  }
+
+  .eyebrow {
+    font-size: .75rem;
+    letter-spacing: 4px;
+    text-transform: uppercase;
+    margin-bottom: 10px;
+    opacity: .9;
+  }
+
+  .cover-title {
+    font-family: "Great Vibes", cursive;
+    font-weight: 400;
+    font-size: clamp(2.8rem, 9vw, 4.6rem);
+    line-height: 1.1;
+    text-shadow: 0 2px 12px rgba(0, 0, 0, .3);
+  }
+
+  .cover-line {
+    font-family: "Cormorant Garamond", serif;
+    font-style: italic;
+    font-size: clamp(1.05rem, 3.5vw, 1.35rem);
+    margin: 14px 0 26px;
+    line-height: 1.5;
+    text-shadow: 0 1px 8px rgba(0, 0, 0, .3);
+  }
+
+  .open-btn {
+    background: var(--white);
+    color: var(--rose);
+    border: none;
+    padding: 14px 34px;
+    border-radius: 999px;
+    font-family: inherit;
+    font-size: .88rem;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    font-weight: 600;
+    cursor: pointer;
+    box-shadow: 0 8px 22px rgba(0, 0, 0, .25);
+    transition: transform .2s ease;
+  }
+  .open-btn:hover { transform: translateY(-2px); }
+
+  @media (max-width: 480px) {
+    .cover-content { padding: 0 16px 48px; }
+    .cover-line { margin: 10px 0 20px; }
+  }
+
+  /* ================= PAGE 2: INVITATION (poora soft peach) ================= */
+  #invitationPage {
+    background: var(--peach);
+    min-height: 100vh;
+  }
+
+  .back-btn {
+    position: fixed;
+    top: 16px;
+    left: 16px;
+    background: var(--white);
+    color: var(--rose);
+    border: 1px solid var(--pink-deep);
+    padding: 9px 16px;
+    border-radius: 999px;
+    font-family: inherit;
+    font-size: .8rem;
+    font-weight: 600;
+    cursor: pointer;
+    z-index: 30;
+  }
+
+  .inv-banner {
+    background: transparent;
+    text-align: center;
+    padding: 80px 20px 40px;
+  }
+  .inv-banner .script {
+    font-family: "Great Vibes", cursive;
+    font-size: clamp(3rem, 10vw, 5rem);
+    color: var(--rose);
+    line-height: 1.1;
+  }
+  .inv-banner .sub {
+    font-family: "Cormorant Garamond", serif;
+    font-style: italic;
+    font-size: 1.15rem;
+    margin-top: 10px;
+  }
+
+  .inv-body {
+    max-width: 680px;
+    margin: 0 auto;
+    padding: 20px 24px 60px;
+    text-align: center;
+  }
+
+  .inv-body .label {
+    font-size: .75rem;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    color: var(--rose);
+    margin-bottom: 6px;
+  }
+
+  .inv-body .big-name {
+    font-family: "Cormorant Garamond", serif;
+    font-size: clamp(1.8rem, 5vw, 2.4rem);
+    font-weight: 600;
+    margin: 4px 0 26px;
+  }
+
+  .inv-body .text {
+    font-family: "Cormorant Garamond", serif;
+    font-size: 1.15rem;
+    line-height: 1.7;
+    margin-bottom: 26px;
+  }
+
+  .detail {
+    border-top: 1px solid var(--pink-deep);
+    padding: 18px 0;
+  }
+  .detail:last-of-type { border-bottom: 1px solid var(--pink-deep); }
+  .detail strong {
+    display: block;
+    color: var(--rose);
+    font-size: .75rem;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    margin-bottom: 6px;
+  }
+
+  .contact {
+    margin-top: 30px;
+    line-height: 1.9;
+    font-size: .95rem;
+  }
+  .contact a {
+    color: var(--rose);
+    font-weight: 600;
+    text-decoration: none;
+  }
+
+  .thanks {
+    margin-top: 30px;
+    font-family: "Cormorant Garamond", serif;
+    font-style: italic;
+    font-size: 1.1rem;
+  }
+
+  /* ================= MUSIC BUTTON ================= */
+  #musicBtn {
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    width: 52px;
+    height: 52px;
+    border-radius: 50%;
+    border: none;
+    background: var(--rose);
+    color: var(--white);
+    font-size: 1.3rem;
+    box-shadow: 0 8px 20px rgba(201, 117, 142, .35);
+    cursor: pointer;
+    z-index: 30;
+    display: none;
+  }
+  #musicBtn.show { display: block; }
+  #musicBtn.playing { animation: spin 4s linear infinite; }
+  @keyframes spin { to { transform: rotate(360deg); } }
+
+  @media (max-width: 480px) {
+    .inv-banner { padding: 70px 16px 30px; }
+    .back-btn { top: 12px; left: 12px; }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    *, *::before, *::after { animation: none !important; transition: none !important; }
+  }
+</style>
+</head>
+<body>
+
+<!-- ================= PAGE 1: COVER ================= -->
+<section class="page active" id="coverPage">
+  <!-- CHANGE: agar image ka naam cover.jpg nahi hai to yahan badlein -->
+  <img class="cover-bg" src="cover.jpg" alt="Cover" id="coverImg">
+  <div class="cover-overlay"></div>
+  <div class="cover-fallback" id="fallback">Birthday</div>
+
+  <div class="cover-content">
+    <p class="eyebrow">You're invited</p>
+    <h1 class="cover-title">Birthday Invitation</h1>
+    <p class="cover-line">We will be so blessed if you come</p>
+    <button class="open-btn" id="openBtn">Your Invitation</button>
+  </div>
+</section>
+
+<!-- ================= PAGE 2: INVITATION ================= -->
+<section class="page" id="invitationPage">
+  <button class="back-btn" id="backBtn">← Back</button>
+
+  <div class="inv-banner">
+    <div class="script">Happy Birthday</div>
+    <p class="sub">Together with their families</p>
+  </div>
+
+  <div class="inv-body">
+    <!-- CHANGE: host names -->
+    <p class="label">Hosted by</p>
+    <p class="big-name">Mr. &amp; Mrs. Family Name</p>
+
+    <p class="text">
+      request the pleasure of your company<br>
+      as we celebrate the birthday of
+    </p>
+
+    <!-- CHANGE: birthday person name -->
+    <p class="big-name">Birthday Person Name</p>
+
+    <p class="text">
+      Join us for an evening of joy, laughter and cake.<br>
+      We will be so blessed to have you there.
+    </p>
+
+    <!-- CHANGE: date, time, venue -->
+    <div class="detail">
+      <strong>Date</strong>
+      Saturday, 12 December 2026
+    </div>
+    <div class="detail">
+      <strong>Time</strong>
+      7:00 PM onwards
+    </div>
+    <div class="detail">
+      <strong>Venue</strong>
+      Venue Name<br>Venue Address, City
+    </div>
+
+    <!-- CHANGE: contact numbers -->
+    <div class="contact">
+      <p>Contact Name 1 &nbsp;<a href="tel:+920000000000">+92 000 0000000</a></p>
+      <p>Contact Name 2 &nbsp;<a href="tel:+920000000001">+92 000 0000001</a></p>
+    </div>
+
+    <p class="thanks">Your presence will make our celebration complete. 🌸</p>
+  </div>
+</section>
+
+<!-- MUSIC: music.mp3 ko isi folder mein rakhein -->
+<audio id="bgMusic" loop preload="auto" src="music.mp3"></audio>
+<button id="musicBtn" aria-label="Toggle music">♪</button>
+
+<script>
+  const coverPage = document.getElementById("coverPage");
+  const invitationPage = document.getElementById("invitationPage");
+  const openBtn = document.getElementById("openBtn");
+  const backBtn = document.getElementById("backBtn");
+  const coverImg = document.getElementById("coverImg");
+  const fallback = document.getElementById("fallback");
+  const musicBtn = document.getElementById("musicBtn");
+  const music = document.getElementById("bgMusic");
+
+  let isPlaying = false;
+  music.volume = 0.5;
+
+  // Cover image na mile to fallback dikhayein
+  coverImg.addEventListener("error", () => {
+    coverImg.style.display = "none";
+    fallback.style.display = "flex";
+  });
+
+  // Music file na mile to button chhupa dein
+  music.addEventListener("error", () => {
+    musicBtn.style.display = "none";
+  });
+
+  function setMusicUI(on) {
+    isPlaying = on;
+    musicBtn.classList.toggle("playing", on);
+  }
+
+  function showPage(page) {
+    coverPage.classList.remove("active");
+    invitationPage.classList.remove("active");
+    page.classList.add("active");
+    window.scrollTo(0, 0);
+  }
+
+  // "Your Invitation" button: gaana chalega aur invitation khulega
+  openBtn.addEventListener("click", () => {
+    showPage(invitationPage);
+    musicBtn.classList.add("show");
+    music.play()
+      .then(() => setMusicUI(true))
+      .catch(() => setMusicUI(false));
+  });
+
+  backBtn.addEventListener("click", () => showPage(coverPage));
+
+  musicBtn.addEventListener("click", () => {
+    if (isPlaying) {
+      music.pause();
+      setMusicUI(false);
+    } else {
+      music.play()
+        .then(() => setMusicUI(true))
+        .catch(() => setMusicUI(false));
+    }
+  });
+</script>
+
+</body>
+</html>
